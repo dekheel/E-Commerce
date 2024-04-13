@@ -15,4 +15,10 @@ class AuthRepositoryImpl implements AuthRepository {
     return authRemoteDataSource.register(
         name, email, password, rePassword, phone);
   }
+
+  @override
+  Future<Either<FailuresEntity, AuthResultEntity>> login(
+      String email, String password) {
+    return authRemoteDataSource.login(email, password);
+  }
 }

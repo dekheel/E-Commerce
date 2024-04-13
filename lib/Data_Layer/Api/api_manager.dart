@@ -4,7 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/Data_Layer/Api/api_constants.dart';
 import 'package:e_commerce/Data_Layer/Model/Request/Register_request.dart';
-import 'package:e_commerce/Data_Layer/Model/Response/Register_response_dto.dart';
+import 'package:e_commerce/Data_Layer/Model/Request/login_request.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/auth_response_dto.dart';
 import 'package:http/http.dart' as http;
 
 import '../../Domain_Layer/Entities/failures_entity.dart';
@@ -19,7 +20,7 @@ class ApiManager {
     return _apiManager!;
   }
 
-  Future<Either<FailuresEntity, RegisterResponseDto>> register(String name,
+  Future<Either<FailuresEntity, AuthResponseDto>> register(String name,
       String email, String password, String rePassword, String phone) async {
     var connectivityResult =
         await Connectivity().checkConnectivity(); // User defined class
@@ -35,7 +36,7 @@ class ApiManager {
           rePassword: rePassword);
       var response = await http.post(url, body: registerRequest.toJson());
       var registerResponse =
-          RegisterResponseDto.fromJson(jsonDecode(response.body));
+          AuthResponseDto.fromJson(jsonDecode(response.body));
       if (response.statusCode >= 200 && response.statusCode < 300) {
         return Right(registerResponse);
       } else {
@@ -43,6 +44,29 @@ class ApiManager {
             errorMessage: registerResponse.error != null
                 ? registerResponse.error!.msg
                 : registerResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<FailuresEntity, AuthResponseDto>> login(
+      String email, String password) async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.loginApi);
+      var loginRequest = LoginRequest(email: email, password: password);
+
+      var response = await http.post(url, body: loginRequest.toJson());
+
+      var loginResponse = AuthResponseDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(loginResponse);
+      } else {
+        return Left(ServerError(errorMessage: loginResponse.message));
       }
     } else {
       return Left(

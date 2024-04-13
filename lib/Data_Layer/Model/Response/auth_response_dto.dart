@@ -7,8 +7,8 @@ import 'User_dto.dart';
 /// user : {"name":"Ahmed Abd Al-Muti","email":"ahmedmutti265465@gmail.com","role":"user"}
 /// token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGM5ZGRkYmU4YjUyMzIzNWFhZTNkMCIsIm5hbWUiOiJBaG1lZCBBYmQgQWwtTXV0aSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzEyMTAyODc4LCJleHAiOjE3MTk4Nzg4Nzh9.Id6X_6lJn0S_HgfCQiE1jUtqMLdxAbdGAZVFp2FmN10"
 
-class RegisterResponseDto {
-  RegisterResponseDto({
+class AuthResponseDto {
+  AuthResponseDto({
     this.message,
     this.user,
     this.error,
@@ -16,7 +16,7 @@ class RegisterResponseDto {
     this.token,
   });
 
-  RegisterResponseDto.fromJson(dynamic json) {
+  AuthResponseDto.fromJson(dynamic json) {
     message = json['message'];
     statusMsg = json['statusMsg'];
     error =

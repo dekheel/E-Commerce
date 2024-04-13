@@ -1,6 +1,6 @@
 import 'package:e_commerce/Domain_Layer/dependency_injection.dart';
 import 'package:e_commerce/Ui_Layer/Auth/Register/Cubit/register_screen_view_model.dart';
-import 'package:e_commerce/Ui_Layer/Auth/Register/Cubit/register_states.dart';
+import 'package:e_commerce/Ui_Layer/Auth/auth_states.dart';
 import 'package:e_commerce/Ui_Layer/Utils/custom_text_field.dart';
 import 'package:e_commerce/Ui_Layer/Utils/my_assets.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +28,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocListener(
       bloc: viewModel,
       listener: (context, state) {
-        if (state is RegisterLoadingState) {
+        if (state is AuthLoadingState) {
           DialogUtils.showLoading(
               context: context, loadingMessage: "loading.....");
-        } else if (state is RegisterErrorState) {
+        } else if (state is AuthErrorState) {
           DialogUtils.hideLoading(context);
           DialogUtils.showMessage(
               context: context, content: state.errorMessage!);
-        } else if (state is RegisterSuccessState) {
+        } else if (state is AuthSuccessState) {
           DialogUtils.hideLoading(context);
           DialogUtils.showMessage(
               context: context,

@@ -1,7 +1,7 @@
 import 'package:e_commerce/Domain_Layer/Entities/user_entity.dart';
 
-class LoginResponseEntity {
-  LoginResponseEntity({
+class AuthResponseEntity {
+  AuthResponseEntity({
     this.message,
     this.user,
     this.token,

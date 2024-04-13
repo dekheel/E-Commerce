@@ -1,11 +1,11 @@
 import 'package:e_commerce/Domain_Layer/Use_Cases/register_use_case.dart';
-import 'package:e_commerce/Ui_Layer/Auth/Register/Cubit/register_states.dart';
+import 'package:e_commerce/Ui_Layer/Auth/auth_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegisterScreenViewModel extends Cubit<RegisterStates> {
+class RegisterScreenViewModel extends Cubit<AuthStates> {
   RegisterScreenViewModel({required this.registerUseCase})
-      : super(RegisterInitialState());
+      : super(AuthInitialState());
 
   // todo: hold data
   GlobalKey formKey = GlobalKey<FormState>();
@@ -23,7 +23,7 @@ class RegisterScreenViewModel extends Cubit<RegisterStates> {
 
 // todo: handle functions
   void register() async {
-    emit(RegisterLoadingState());
+    emit(AuthLoadingState());
     var either = await registerUseCase.invoke(
         nameController.text,
         emailController.text,
@@ -32,9 +32,9 @@ class RegisterScreenViewModel extends Cubit<RegisterStates> {
         phoneController.text);
 
     either.fold((l) {
-      emit(RegisterErrorState(errorMessage: l.errorMessage));
+      emit(AuthErrorState(errorMessage: l.errorMessage));
     }, (r) {
-      emit(RegisterSuccessState(authResultEntity: r));
+      emit(AuthSuccessState(authResultEntity: r));
     });
   }
 }
