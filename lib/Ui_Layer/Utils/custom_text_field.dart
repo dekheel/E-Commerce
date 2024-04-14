@@ -33,36 +33,33 @@ class CustomTextField extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .titleMedium!
-              .copyWith(fontSize: 18.sp, color: AppColors.whiteColor),
+              .copyWith(fontSize: 18.sp, color: MyColors.whiteColor),
           textAlign: TextAlign.start,
         ),
         Padding(
           padding: EdgeInsets.only(top: 16.h, bottom: 20.h),
           child: TextFormField(
             decoration: InputDecoration(
-                fillColor: AppColors.whiteColor,
+                fillColor: MyColors.whiteColor,
                 filled: true,
                 suffixIcon: InkWell(
                     onTap: suffixIconFunction,
                     child: suffixIcon ?? const SizedBox.shrink()),
                 enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: AppColors.blueGreyColor),
+                    borderSide: const BorderSide(color: MyColors.blueGreyColor),
                     borderRadius: BorderRadius.circular(15.r)),
                 focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: AppColors.blueGreyColor),
+                    borderSide: const BorderSide(color: MyColors.blueGreyColor),
                     borderRadius: BorderRadius.circular(15.r)),
                 errorBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: AppColors.blueGreyColor),
+                    borderSide: const BorderSide(color: MyColors.blueGreyColor),
                     borderRadius: BorderRadius.circular(15.r)),
                 hintText: hintText,
                 hintStyle: Theme.of(context)
                     .textTheme
                     .titleMedium!
-                    .copyWith(color: AppColors.greyColor)),
-            style: const TextStyle(color: AppColors.blackColor),
+                    .copyWith(color: MyColors.greyColor)),
+            style: const TextStyle(color: MyColors.blackColor),
             validator: validator,
             controller: controller,
             obscureText: isObscure,

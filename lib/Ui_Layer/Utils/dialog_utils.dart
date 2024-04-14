@@ -16,13 +16,13 @@ class DialogUtils {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const CircularProgressIndicator(
-                  color: AppColors.yellowColor, strokeWidth: 5),
+                  color: MyColors.yellowColor, strokeWidth: 5),
               const SizedBox(
                 width: 10,
               ),
               Text(loadingMessage,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: AppColors.blackColor, fontWeight: FontWeight.bold))
+                      color: MyColors.blackColor, fontWeight: FontWeight.bold))
             ],
           ),
         );
@@ -57,7 +57,7 @@ class DialogUtils {
           child: Text(
             posActions,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold, color: AppColors.yellowColor),
+                fontWeight: FontWeight.bold, color: MyColors.yellowColor),
           )));
     }
 
@@ -73,7 +73,7 @@ class DialogUtils {
           child: Text(
             negActions,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold, color: AppColors.yellowColor),
+                fontWeight: FontWeight.bold, color: MyColors.yellowColor),
           )));
     }
 
@@ -87,10 +87,10 @@ class DialogUtils {
           elevation: 0,
           title: title != null
               ? Text(
-                  title ?? "",
+            title ?? "",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: AppColors.blackColor, fontWeight: FontWeight.bold),
+                      color: MyColors.blackColor, fontWeight: FontWeight.bold),
                 )
               : null,
           content: Text(
@@ -99,7 +99,7 @@ class DialogUtils {
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
-                ?.copyWith(color: AppColors.blackColor),
+                ?.copyWith(color: MyColors.blackColor),
           ),
           actions: actions.isEmpty ? null : actions,
         );

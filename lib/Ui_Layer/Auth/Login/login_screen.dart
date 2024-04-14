@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         body: Container(
-          color: AppColors.primaryColor,
+          color: MyColors.primaryColor,
           height: double.infinity,
           child: SingleChildScrollView(
             child: Column(
@@ -161,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     viewModel.login();
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.whiteColor,
+                                    backgroundColor: MyColors.whiteColor,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(15.r))),
@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             .textTheme
                                             .titleLarge!
                                             .copyWith(
-                                                color: AppColors.primaryColor,
+                                            color: MyColors.primaryColor,
                                                 fontSize: 20.sp),
                                       ),
                                     ),

@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
       child: Scaffold(
         body: Container(
-          color: AppColors.primaryColor,
+          color: MyColors.primaryColor,
           height: double.infinity,
           child: SingleChildScrollView(
             child: Column(
@@ -181,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     viewModel.register();
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.whiteColor,
+                                    backgroundColor: MyColors.whiteColor,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(15.r))),
@@ -196,7 +196,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             .textTheme
                                             .titleLarge!
                                             .copyWith(
-                                                color: AppColors.primaryColor,
+                                            color: MyColors.primaryColor,
                                                 fontSize: 20.sp),
                                       ),
                                     ),
