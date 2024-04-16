@@ -11,8 +11,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.apiManager});
 
   @override
-  Future<Either<FailuresEntity, AuthResultEntity>> register(String name,
-      String email, String password, String rePassword, String phone) async {
+  Future<Either<Failures, AuthResultEntity>> register(String name, String email,
+      String password, String rePassword, String phone) async {
     var either =
         await apiManager.register(name, email, password, rePassword, phone);
     return either.fold((l) {
@@ -23,7 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Either<FailuresEntity, AuthResultEntity>> login(
+  Future<Either<Failures, AuthResultEntity>> login(
       String email, String password) async {
     var either = await apiManager.login(email, password);
     return either.fold((l) {

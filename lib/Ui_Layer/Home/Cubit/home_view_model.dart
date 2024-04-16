@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Tabs/category_tab.dart';
 import '../../Tabs/favorite_tab.dart';
-import '../../Tabs/home_tab.dart';
+import '../../Tabs/Home_Tab/home_tab.dart';
 import '../../Tabs/user_tab.dart';
 
 class HomeScreenViewModel extends Cubit<HomeStates> {
@@ -12,11 +12,11 @@ class HomeScreenViewModel extends Cubit<HomeStates> {
 
 // todo: hold data
   int selectedIndex = 0;
-  List<Widget> bodyList = const [
+  List<Widget> bodyList = [
     HomeTab(),
-    CategoryTab(),
-    FavoriteTab(),
-    UserTab()
+    const CategoryTab(),
+    const FavoriteTab(),
+    const UserTab()
   ];
 
   void bottomNavOnTap(int index) {

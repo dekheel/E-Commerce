@@ -1,13 +1,13 @@
-class FailuresEntity {
+class Failures {
   String? errorMessage;
 
-  FailuresEntity({required this.errorMessage});
+  Failures({required this.errorMessage});
 }
 
-class ServerError extends FailuresEntity {
+class ServerError extends Failures {
   ServerError({required super.errorMessage});
 }
 
-class NetworkError extends FailuresEntity {
+class NetworkError extends Failures {
   NetworkError({required super.errorMessage});
 }

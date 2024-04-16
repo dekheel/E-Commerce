@@ -10,14 +10,14 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.authRemoteDataSource});
 
   @override
-  Future<Either<FailuresEntity, AuthResultEntity>> register(String name,
-      String email, String password, String rePassword, String phone) {
+  Future<Either<Failures, AuthResultEntity>> register(String name, String email,
+      String password, String rePassword, String phone) {
     return authRemoteDataSource.register(
         name, email, password, rePassword, phone);
   }
 
   @override
-  Future<Either<FailuresEntity, AuthResultEntity>> login(
+  Future<Either<Failures, AuthResultEntity>> login(
       String email, String password) {
     return authRemoteDataSource.login(email, password);
   }

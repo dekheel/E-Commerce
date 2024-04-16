@@ -1,10 +1,10 @@
-import 'package:e_commerce/Domain_Layer/Use_Cases/register_use_case.dart';
+import 'package:e_commerce/Domain_Layer/Use_Cases/auth_use_case.dart';
 import 'package:e_commerce/Ui_Layer/Auth/auth_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterScreenViewModel extends Cubit<AuthStates> {
-  RegisterScreenViewModel({required this.registerUseCase})
+  RegisterScreenViewModel({required this.authUseCase})
       : super(AuthInitialState());
 
   // todo: hold data
@@ -19,12 +19,12 @@ class RegisterScreenViewModel extends Cubit<AuthStates> {
   TextEditingController phoneController =
       TextEditingController(text: "01201346231");
   bool isObscure = true;
-  late RegisterUseCase registerUseCase;
+  AuthUseCase authUseCase;
 
 // todo: handle functions
   void register() async {
     emit(AuthLoadingState());
-    var either = await registerUseCase.invoke(
+    var either = await authUseCase.registerInvoke(
         nameController.text,
         emailController.text,
         passwordController.text,

@@ -9,9 +9,9 @@ import 'User_dto.dart';
 
 class AuthResponseDto {
   AuthResponseDto({
-    this.message,
     this.user,
     this.error,
+    this.message,
     this.statusMsg,
     this.token,
   });

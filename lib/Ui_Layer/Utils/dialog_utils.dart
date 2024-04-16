@@ -16,7 +16,7 @@ class DialogUtils {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const CircularProgressIndicator(
-                  color: MyColors.yellowColor, strokeWidth: 5),
+                  color: MyColors.primaryColor, strokeWidth: 5),
               const SizedBox(
                 width: 10,
               ),

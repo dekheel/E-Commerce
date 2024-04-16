@@ -2,7 +2,7 @@ import 'package:e_commerce/Ui_Layer/Auth/auth_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../Domain_Layer/Use_Cases/login_use_case.dart';
+import '../../../../Domain_Layer/Use_Cases/auth_use_case.dart';
 
 class LoginScreenViewModel extends Cubit<AuthStates> {
   LoginScreenViewModel({required this.loginUseCase})
@@ -15,12 +15,12 @@ class LoginScreenViewModel extends Cubit<AuthStates> {
   TextEditingController emailController =
       TextEditingController(text: "adekheel@gmail.com");
   bool isObscure = true;
-  late LoginUseCase loginUseCase;
+  late AuthUseCase loginUseCase;
 
 // todo: handle functions
   void login() async {
     emit(AuthLoadingState());
-    var either = await loginUseCase.invoke(
+    var either = await loginUseCase.loginInvoke(
       emailController.text,
       passwordController.text,
     );

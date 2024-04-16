@@ -42,14 +42,14 @@ class _LoginScreenState extends State<LoginScreen> {
           DialogUtils.hideLoading(context);
 
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-          Fluttertoast.showToast(
-              msg: state.authResultEntity!.userEntity!.name!,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.sp);
+          // Fluttertoast.showToast(
+          //     msg: state.authResultEntity!.userEntity!.name!,
+          //     toastLength: Toast.LENGTH_SHORT,
+          //     gravity: ToastGravity.CENTER,
+          //     timeInSecForIosWeb: 1,
+          //     backgroundColor: Colors.red,
+          //     textColor: Colors.white,
+          //     fontSize: 16.sp);
         }
       },
       child: Scaffold(
