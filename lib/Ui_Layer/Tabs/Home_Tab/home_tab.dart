@@ -47,7 +47,9 @@ class HomeTab extends StatelessWidget {
                 SizedBox(
                   height: 16.h,
                 ),
-                Announcement(),
+                Announcement(
+                    context: context,
+                    sliderImageStrings: viewModel.announcementList),
                 SizedBox(
                   height: 16.h,
                 ),
@@ -87,7 +89,7 @@ class HomeTab extends StatelessWidget {
                   height: 24.h,
                 ),
                 SizedBox(
-                    height: 225.h,
+                    height: 150.h,
                     child: state is GetAllBrandsLoadingStates
                         ? const Center(
                             child: CircularProgressIndicator(

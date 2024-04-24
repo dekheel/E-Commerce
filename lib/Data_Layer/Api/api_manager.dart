@@ -7,6 +7,7 @@ import 'package:e_commerce/Data_Layer/Model/Request/Register_request.dart';
 import 'package:e_commerce/Data_Layer/Model/Request/login_request.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/auth_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/category_brand_response_dto.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/product_response_dto.dart';
 import 'package:http/http.dart' as http;
 
 import '../../Domain_Layer/Entities/failures_entity.dart';
@@ -125,6 +126,31 @@ class ApiManager {
         return Right(categoryResponse);
       } else {
         return Left(ServerError(errorMessage: categoryResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, ProductResponseDto>> getAllProducts() async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.productsApi);
+
+      var response = await http.get(url);
+
+      var productResponse =
+          ProductResponseDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(productResponse);
+      } else {
+        return Left(ServerError(errorMessage: productResponse.message));
       }
     } else {
       return Left(

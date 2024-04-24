@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:e_commerce/Ui_Layer/Auth/Login/login_screen.dart';
 import 'package:e_commerce/Ui_Layer/Home/home_screen.dart';
+import 'package:e_commerce/Ui_Layer/Product_details/product_details.dart';
 import 'package:e_commerce/Ui_Layer/Utils/app_theme.dart';
 import 'package:e_commerce/Ui_Layer/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
           SplashScreen.routeName: (context) => const SplashScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
-          RegisterScreen.routeName: (context) => const RegisterScreen()
+          RegisterScreen.routeName: (context) => const RegisterScreen(),
+          ProductDetails.routeName: (context) => const ProductDetails()
         },
         theme: AppTheme.mainTheme,
       ),

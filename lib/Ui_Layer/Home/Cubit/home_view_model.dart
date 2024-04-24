@@ -1,10 +1,10 @@
 import 'package:e_commerce/Ui_Layer/Home/home_states.dart';
+import 'package:e_commerce/Ui_Layer/Tabs/Products_Tab/products_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../Tabs/category_tab.dart';
-import '../../Tabs/favorite_tab.dart';
 import '../../Tabs/Home_Tab/home_tab.dart';
+import '../../Tabs/favorite_tab.dart';
 import '../../Tabs/user_tab.dart';
 
 class HomeScreenViewModel extends Cubit<HomeStates> {
@@ -14,7 +14,7 @@ class HomeScreenViewModel extends Cubit<HomeStates> {
   int selectedIndex = 0;
   List<Widget> bodyList = [
     HomeTab(),
-    const CategoryTab(),
+    ProductTab(),
     const FavoriteTab(),
     const UserTab()
   ];

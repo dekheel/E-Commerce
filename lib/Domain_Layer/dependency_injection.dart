@@ -10,6 +10,7 @@ import 'Repository/Data_Source/home_tab_remote_data_source.dart';
 import 'Repository/Repository/home_tab_repository.dart';
 import 'Use_Cases/auth_use_case.dart';
 import 'Use_Cases/get_all_brands_use_case.dart';
+import 'Use_Cases/get_all_products_use_case.dart';
 
 // for Authentication
 AuthUseCase injectRegisterUseCase() {
@@ -47,4 +48,9 @@ HomeTabRemoteDataSource injecthomeTabRemoteDataSource() {
 
 GetAllBrandsUseCase injectGetAllBrandsUseCase() {
   return GetAllBrandsUseCase(homeTabRepository: injectHomeTabRepository());
+}
+
+// for products
+GetAllProductsUseCase injectGetAllProductsUseCase() {
+  return GetAllProductsUseCase(homeTabRepository: injectHomeTabRepository());
 }

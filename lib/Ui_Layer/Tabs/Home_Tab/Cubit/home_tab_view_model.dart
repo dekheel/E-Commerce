@@ -3,12 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Domain_Layer/Entities/category_brand_response_entity.dart';
 import '../../../../Domain_Layer/Use_Cases/get_all_brands_use_case.dart';
 import '../../../../Domain_Layer/Use_Cases/get_all_categories_use_case.dart';
+import '../../../Utils/my_assets.dart';
 import 'home_tab_states.dart';
 
 class HomeTabViewModel extends Cubit<HomeTabStates> {
   GetAllCategoriesUseCase categoriesUseCase;
 
   GetAllBrandsUseCase brandsUseCase;
+
+  List<String> announcementList = [
+    MyAssets.announcementImage1,
+    MyAssets.announcementImage2,
+    MyAssets.announcementImage3,
+  ];
 
   HomeTabViewModel(
       {required this.categoriesUseCase, required this.brandsUseCase})
