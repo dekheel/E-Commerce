@@ -12,20 +12,21 @@ import 'Cubit/products_tab_states.dart';
 import 'Cubit/products_tab_view_model.dart';
 
 class ProductTab extends StatelessWidget {
-  ProductTabViewModel viewModel =
-      ProductTabViewModel(productsUseCase: injectGetAllProductsUseCase());
+  ProductTabViewModel viewModel = ProductTabViewModel(
+      productsUseCase: injectGetAllProductsUseCase(),
+      addToCartUseCase: injectAddToCartUseCase());
 
   // @override
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductTabViewModel, ProductTabStates>(
-      bloc: viewModel..getAllProducts(),
       builder: (context, state) {
         return SafeArea(
             child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 17.w),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 10.h,
@@ -39,7 +40,9 @@ class ProductTab extends StatelessWidget {
               SizedBox(
                 height: 18.h,
               ),
-              const CustomSearchWithShoppingCart(),
+              CustomSearchWithShoppingCart(
+                cartItem: viewModel.numOfCartItem.toString(),
+              ),
               SizedBox(
                 height: 16.h,
               ),

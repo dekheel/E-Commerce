@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
+import '../Cubit/products_tab_view_model.dart';
+
 class ProductItem extends StatelessWidget {
   ProductEntity product;
   bool isWishListed;
@@ -133,6 +135,9 @@ class ProductItem extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         //   todo add to cart
+
+                        ProductTabViewModel.get(context)
+                            .addProductToCart(product.id ?? "");
                       },
                       splashColor: Colors.transparent,
                       child: Icon(

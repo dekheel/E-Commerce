@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomSearchWithShoppingCart extends StatelessWidget {
-  const CustomSearchWithShoppingCart({super.key});
+  final String? cartItem;
+
+  const CustomSearchWithShoppingCart({this.cartItem, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +20,13 @@ class CustomSearchWithShoppingCart extends StatelessWidget {
         SizedBox(width: 24.w),
         InkWell(
             onTap: () {},
-            child: ImageIcon(
-              const AssetImage(MyAssets.shoppingCart),
-              size: 28.sp,
-              color: MyColors.primaryColor,
+            child: Badge(
+              label: Text(cartItem ?? "0"),
+              child: ImageIcon(
+                const AssetImage(MyAssets.shoppingCart),
+                size: 28.sp,
+                color: MyColors.primaryColor,
+              ),
             ))
       ],
     );

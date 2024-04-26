@@ -5,9 +5,11 @@ import 'package:dartz/dartz.dart';
 import 'package:e_commerce/Data_Layer/Api/api_constants.dart';
 import 'package:e_commerce/Data_Layer/Model/Request/Register_request.dart';
 import 'package:e_commerce/Data_Layer/Model/Request/login_request.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/add_cart_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/auth_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/category_brand_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/product_response_dto.dart';
+import 'package:e_commerce/Ui_Layer/Utils/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../Domain_Layer/Entities/failures_entity.dart';
@@ -151,6 +153,34 @@ class ApiManager {
         return Right(productResponse);
       } else {
         return Left(ServerError(errorMessage: productResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, AddCartResponseDto>> addProductToCart(
+      String productId) async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.addProductApi);
+
+      var token = SharedPreference.readData(key: SharedPreference.userTokenKey);
+      var response = await http.post(url,
+          body: {"productId": productId}, headers: {"token": token.toString()});
+
+      var addCartResponseDto =
+          AddCartResponseDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(addCartResponseDto);
+      } else {
+        return Left(ServerError(errorMessage: addCartResponseDto.message));
       }
     } else {
       return Left(

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Tabs/Home_Tab/home_tab.dart';
+import '../../Tabs/User_Tab/user_tab.dart';
 import '../../Tabs/favorite_tab.dart';
-import '../../Tabs/user_tab.dart';
 
 class HomeScreenViewModel extends Cubit<HomeStates> {
   HomeScreenViewModel() : super(HomeInitialState());

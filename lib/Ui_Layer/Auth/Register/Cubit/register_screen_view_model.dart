@@ -3,6 +3,8 @@ import 'package:e_commerce/Ui_Layer/Auth/auth_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../Utils/shared_preferences.dart';
+
 class RegisterScreenViewModel extends Cubit<AuthStates> {
   RegisterScreenViewModel({required this.authUseCase})
       : super(AuthInitialState());
@@ -33,8 +35,10 @@ class RegisterScreenViewModel extends Cubit<AuthStates> {
 
     either.fold((l) {
       emit(AuthErrorState(errorMessage: l.errorMessage));
-    }, (r) {
-      emit(AuthSuccessState(authResultEntity: r));
+    }, (response) {
+      SharedPreference.saveData(
+          key: SharedPreference.userTokenKey, data: response.token);
+      emit(AuthSuccessState(authResultEntity: response));
     });
   }
 }

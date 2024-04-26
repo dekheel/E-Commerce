@@ -1,4 +1,5 @@
 import 'package:e_commerce/Ui_Layer/Auth/auth_states.dart';
+import 'package:e_commerce/Ui_Layer/Utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +29,8 @@ class LoginScreenViewModel extends Cubit<AuthStates> {
     either.fold((l) {
       emit(AuthErrorState(errorMessage: l.errorMessage));
     }, (response) {
+      SharedPreference.saveData(
+          key: SharedPreference.userTokenKey, data: response.token);
       emit(AuthSuccessState(authResultEntity: response));
     });
   }

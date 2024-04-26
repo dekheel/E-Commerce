@@ -17,3 +17,17 @@ class ProductErrorStates extends ProductTabStates {
 }
 
 class ProductSuccessStates extends ProductTabStates {}
+
+class AddToCartLoadingStates extends ProductTabStates {
+  String? loading;
+
+  AddToCartLoadingStates({required this.loading});
+}
+
+class AddToCartErrorStates extends ProductTabStates {
+  Failures failures;
+
+  AddToCartErrorStates({required this.failures});
+}
+
+class AddToCartSuccessStates extends ProductTabStates {}
