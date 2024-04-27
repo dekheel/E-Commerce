@@ -136,7 +136,7 @@ class ProductItem extends StatelessWidget {
                       onTap: () {
                         //   todo add to cart
 
-                        ProductTabViewModel.get(context)
+                        ProductTabViewModel.instance(context)
                             .addProductToCart(product.id ?? "");
                       },
                       splashColor: Colors.transparent,

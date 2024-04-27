@@ -1,3 +1,4 @@
+import 'package:e_commerce/Ui_Layer/Cart/cart_items_screen.dart';
 import 'package:e_commerce/Ui_Layer/Tabs/Home_Tab/widgets/search_text_field.dart';
 import 'package:e_commerce/Ui_Layer/Utils/my_assets.dart';
 import 'package:e_commerce/Ui_Layer/Utils/my_colors.dart';
@@ -19,8 +20,13 @@ class CustomSearchWithShoppingCart extends StatelessWidget {
         )),
         SizedBox(width: 24.w),
         InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(CartItemsScreen.routeName);
+            },
             child: Badge(
+              alignment: AlignmentDirectional.topStart,
+              backgroundColor:
+                  cartItem == "0" ? MyColors.redColor : MyColors.greenColor,
               label: Text(cartItem ?? "0"),
               child: ImageIcon(
                 const AssetImage(MyAssets.shoppingCart),

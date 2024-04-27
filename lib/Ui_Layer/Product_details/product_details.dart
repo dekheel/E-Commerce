@@ -6,6 +6,7 @@ import 'package:readmore/readmore.dart';
 
 import '../../Domain_Layer/Entities/product_response_entity.dart';
 import '../Tabs/Home_Tab/widgets/announcements.dart';
+import '../Utils/my_assets.dart';
 
 class ProductDetails extends StatelessWidget {
   static const String routeName = "ProductDetails";
@@ -15,13 +16,13 @@ class ProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var productEntity =
-        ModalRoute.of(context)!.settings.arguments as ProductEntity;
+        ModalRoute.of(context)!.settings.arguments as ProductEntity?;
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
-        title: Text(productEntity.title!),
+        title: Text(productEntity?.title ?? ""),
         backgroundColor: Colors.transparent,
         foregroundColor: MyColors.primaryColor,
         titleTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -32,8 +33,8 @@ class ProductDetails extends StatelessWidget {
           IconButton(
               padding: EdgeInsets.zero,
               onPressed: () {},
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
+              icon: const ImageIcon(
+                AssetImage(MyAssets.shoppingCart),
                 color: MyColors.primaryColor,
               )),
           IconButton(
@@ -60,7 +61,7 @@ class ProductDetails extends StatelessWidget {
                       child: Announcement(
                           context: context,
                           imagesHeight: 300.h,
-                          sliderImageStrings: productEntity.images!,
+                          sliderImageStrings: productEntity?.images ?? [],
                           loadFromAsset: false))),
               Gap(24.h),
               Row(
@@ -68,14 +69,14 @@ class ProductDetails extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Text(
-                    productEntity.title!,
+                    productEntity?.title ?? "",
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: MyColors.primaryColor),
                   )),
                   Text(
-                    "EGP ${productEntity.price!} ",
+                    "EGP ${productEntity?.price ?? ""} ",
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
@@ -97,7 +98,7 @@ class ProductDetails extends StatelessWidget {
                             border: Border.all(
                                 color: MyColors.primaryColor, width: .75)),
                         child: Text(
-                          "Sold : ${productEntity.sold}",
+                          "Sold : ${productEntity?.sold}",
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -114,7 +115,7 @@ class ProductDetails extends StatelessWidget {
                       ),
                       Gap(4.w),
                       Text(
-                        "${productEntity.ratingsAverage!} ",
+                        "${productEntity?.ratingsAverage!} ",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
@@ -167,7 +168,7 @@ class ProductDetails extends StatelessWidget {
               ),
               Gap(10.h),
               ReadMoreText(
-                productEntity.description!,
+                productEntity?.description ?? "",
                 trimLines: 3,
                 trimMode: TrimMode.Line,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -202,7 +203,7 @@ class ProductDetails extends StatelessWidget {
                       ),
                       Gap(5.h),
                       Text(
-                        "EGP ${productEntity.price!} ",
+                        "EGP ${productEntity?.price ?? ""} ",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500,

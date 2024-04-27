@@ -26,7 +26,7 @@ class ProductTabViewModel extends Cubit<ProductTabStates> {
     });
   }
 
-  static ProductTabViewModel get(context) => BlocProvider.of(context);
+  static ProductTabViewModel instance(context) => BlocProvider.of(context);
 
   void addProductToCart(String productId) async {
     emit(AddToCartLoadingStates(loading: "loading...."));
@@ -35,7 +35,7 @@ class ProductTabViewModel extends Cubit<ProductTabStates> {
     categoriesEither.fold(
         (failure) => emit(AddToCartErrorStates(failures: failure)), (response) {
       numOfCartItem = response.numOfCartItems!.toInt();
-      emit(AddToCartSuccessStates());
+      emit(AddToCartSuccessStates(addCartResponseEntity: response));
     });
   }
 }

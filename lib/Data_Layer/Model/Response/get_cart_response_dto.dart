@@ -1,26 +1,30 @@
-import 'package:e_commerce/Domain_Layer/Entities/add_cart_response_entity.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/product_response_dto.dart';
+import 'package:e_commerce/Domain_Layer/Entities/get_cart_response_entity.dart';
 
-class AddCartResponseDto extends AddCartResponseEntity {
-  AddCartResponseDto(
+class GetCartResponseDto extends GetCartResponseEntity {
+  GetCartResponseDto(
       {super.status,
-      super.message,
       super.numOfCartItems,
       super.data,
+      this.message,
       this.statusMsg});
 
   String? statusMsg;
 
-  AddCartResponseDto.fromJson(dynamic json) {
+  String? message;
+
+  GetCartResponseDto.fromJson(dynamic json) {
     status = json['status'];
+    numOfCartItems = json['numOfCartItems'];
     message = json['message'];
     statusMsg = json['statusMsg'];
-    numOfCartItems = json['numOfCartItems'];
-    data = json['data'] != null ? CartDataDto.fromJson(json['data']) : null;
+
+    data = json['data'] != null ? GetCartDto.fromJson(json['data']) : null;
   }
 }
 
-class CartDataDto extends AddCartDataEntity {
-  CartDataDto({
+class GetCartDto extends GetCartEntity {
+  GetCartDto({
     super.id,
     super.cartOwner,
     super.products,
@@ -30,13 +34,13 @@ class CartDataDto extends AddCartDataEntity {
     super.totalCartPrice,
   });
 
-  CartDataDto.fromJson(dynamic json) {
+  GetCartDto.fromJson(dynamic json) {
     id = json['_id'];
     cartOwner = json['cartOwner'];
     if (json['products'] != null) {
       products = [];
       json['products'].forEach((v) {
-        products?.add(AddProductDto.fromJson(v));
+        products?.add(GetProductsDto.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -46,18 +50,19 @@ class CartDataDto extends AddCartDataEntity {
   }
 }
 
-class AddProductDto extends AddProductEntity {
-  AddProductDto({
+class GetProductsDto extends GetProductsEntity {
+  GetProductsDto({
     super.count,
     super.id,
     super.product,
     super.price,
   });
 
-  AddProductDto.fromJson(dynamic json) {
+  GetProductsDto.fromJson(dynamic json) {
     count = json['count'];
     id = json['_id'];
-    product = json['product'];
+    product =
+        json['product'] != null ? ProductDto.fromJson(json['product']) : null;
     price = json['price'];
   }
 }

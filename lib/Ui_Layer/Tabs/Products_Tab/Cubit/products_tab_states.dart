@@ -1,5 +1,7 @@
 import 'package:e_commerce/Domain_Layer/Entities/failures_entity.dart';
 
+import '../../../../Domain_Layer/Entities/add_cart_response_entity.dart';
+
 abstract class ProductTabStates {}
 
 class ProductTabInitialStates extends ProductTabStates {}
@@ -30,4 +32,8 @@ class AddToCartErrorStates extends ProductTabStates {
   AddToCartErrorStates({required this.failures});
 }
 
-class AddToCartSuccessStates extends ProductTabStates {}
+class AddToCartSuccessStates extends ProductTabStates {
+  AddCartResponseEntity addCartResponseEntity;
+
+  AddToCartSuccessStates({required this.addCartResponseEntity});
+}

@@ -1,6 +1,8 @@
 import 'package:e_commerce/Data_Layer/Api/api_manager.dart';
+import 'package:e_commerce/Data_Layer/Repository/Data_Source/cart_data_source_impl.dart';
 import 'package:e_commerce/Data_Layer/Repository/Data_Source/home_tab_remote_data_source_impl.dart';
 import 'package:e_commerce/Data_Layer/Repository/Repository/auth_repository_impl.dart';
+import 'package:e_commerce/Data_Layer/Repository/Repository/cart_repository_impl.dart';
 import 'package:e_commerce/Data_Layer/Repository/Repository/home_tab_repository_impl.dart';
 import 'package:e_commerce/Domain_Layer/Repository/Repository/auth_repository.dart';
 import 'package:e_commerce/Domain_Layer/Use_Cases/add_to_cart_use_case.dart';
@@ -8,11 +10,14 @@ import 'package:e_commerce/Domain_Layer/Use_Cases/get_all_categories_use_case.da
 
 import '../Data_Layer/Repository/Data_Source/auth_remote_data_source_imp.dart';
 import 'Repository/Data_Source/auth_remote_data_source.dart';
+import 'Repository/Data_Source/cart_remote_data_source.dart';
 import 'Repository/Data_Source/home_tab_remote_data_source.dart';
+import 'Repository/Repository/cart_repository.dart';
 import 'Repository/Repository/home_tab_repository.dart';
 import 'Use_Cases/auth_use_case.dart';
 import 'Use_Cases/get_all_brands_use_case.dart';
 import 'Use_Cases/get_all_products_use_case.dart';
+import 'Use_Cases/get_cart_use_case.dart';
 
 // for Authentication
 AuthUseCase injectRegisterUseCase() {
@@ -59,4 +64,16 @@ GetAllProductsUseCase injectGetAllProductsUseCase() {
 
 AddToCartUseCase injectAddToCartUseCase() {
   return AddToCartUseCase(homeTabRepository: injectHomeTabRepository());
+}
+
+GetCartUseCase injectGetCartUseCase() {
+  return GetCartUseCase(cartRepository: injectCartRepository());
+}
+
+CartRepository injectCartRepository() {
+  return CartRepositoryImpl(cartRemoteDataSource: injectCartRemoteDataSource());
+}
+
+CartRemoteDataSource injectCartRemoteDataSource() {
+  return CartRemoteDataSourceImpl(apiManager: ApiManager.getInstance());
 }

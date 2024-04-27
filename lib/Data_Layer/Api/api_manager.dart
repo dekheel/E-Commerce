@@ -8,6 +8,7 @@ import 'package:e_commerce/Data_Layer/Model/Request/login_request.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/add_cart_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/auth_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/category_brand_response_dto.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/get_cart_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/product_response_dto.dart';
 import 'package:e_commerce/Ui_Layer/Utils/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -181,6 +182,32 @@ class ApiManager {
         return Right(addCartResponseDto);
       } else {
         return Left(ServerError(errorMessage: addCartResponseDto.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, GetCartResponseDto>> getCart() async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.addProductApi);
+
+      var token = SharedPreference.readData(key: SharedPreference.userTokenKey);
+
+      var response = await http.get(url, headers: {"token": token.toString()});
+
+      var cartResponse = GetCartResponseDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(cartResponse);
+      } else {
+        return Left(ServerError(errorMessage: cartResponse.message));
       }
     } else {
       return Left(

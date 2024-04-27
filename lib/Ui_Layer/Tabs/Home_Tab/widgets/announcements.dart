@@ -38,7 +38,6 @@ class Announcement extends StatelessWidget {
                   imageUrl: url,
                   fit: BoxFit.fill,
                   height: imagesHeight,
-                  width: double.infinity,
                   placeholder: (context, url) => const Center(
                         child: CircularProgressIndicator(
                           color: MyColors.primaryColor,

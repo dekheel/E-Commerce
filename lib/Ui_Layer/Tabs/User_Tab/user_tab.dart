@@ -11,44 +11,43 @@ class UserTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.w),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 17.w),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 10.h,
+                  Image.asset(
+                    MyAssets.routeText,
+                    height: 26.h,
+                    width: 66.w,
+                    fit: BoxFit.fill,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset(
-                        MyAssets.routeText,
-                        height: 26.h,
-                        width: 66.w,
-                        fit: BoxFit.fill,
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            SharedPreference.removeUserToken();
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                              LoginScreen.routeName,
-                              (route) {
-                                return false;
-                              },
-                            );
+                  IconButton(
+                      onPressed: () {
+                        SharedPreference.removeUserToken();
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          LoginScreen.routeName,
+                          (route) {
+                            return false;
                           },
-                          icon: const Icon(
-                            Icons.logout_outlined,
-                            color: MyColors.primaryColor,
-                          ))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 18.h,
-                  ),
-                ])));
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.logout_outlined,
+                        color: MyColors.primaryColor,
+                      ))
+                ],
+              ),
+              SizedBox(
+                height: 18.h,
+              ),
+            ]));
   }
 }
