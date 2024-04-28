@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => const HomeScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
-          ProductDetails.routeName: (context) => const ProductDetails(),
+          ProductDetails.routeName: (context) => ProductDetails(),
           CartItemsScreen.routeName: (context) => CartItemsScreen()
         },
         theme: AppTheme.mainTheme,

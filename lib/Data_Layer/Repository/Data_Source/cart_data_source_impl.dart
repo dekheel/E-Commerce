@@ -19,4 +19,26 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       return right(r);
     });
   }
+
+  @override
+  Future<Either<Failures, GetCartResponseEntity>> deleteCartItem(
+      String productId) async {
+    var either = await apiManager.deleteCartItem(productId);
+    return either.fold((l) {
+      return left(l);
+    }, (r) {
+      return right(r);
+    });
+  }
+
+  @override
+  Future<Either<Failures, GetCartResponseEntity>> updateCartItem(
+      String productId, int count) async {
+    var either = await apiManager.updateCartItem(productId, count);
+    return either.fold((l) {
+      return left(l);
+    }, (r) {
+      return right(r);
+    });
+  }
 }

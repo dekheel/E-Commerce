@@ -8,156 +8,186 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
+import '../Utils/dialog_utils.dart';
+
 class CartItemsScreen extends StatelessWidget {
   static const String routeName = "CartItems";
 
   CartItemsScreen({super.key});
 
-  CartItemsScreenViewModel viewModel =
-      CartItemsScreenViewModel(getCartUseCase: injectGetCartUseCase());
+  CartItemsScreenViewModel viewModel = CartItemsScreenViewModel(
+      getCartUseCase: injectGetCartUseCase(),
+      deleteCartItemUseCase: injectDeleteCartItemUseCase(),
+      updateCartItemUseCase: injectUpdateCartItemUseCase());
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartItemsScreenViewModel, CartStates>(
-      bloc: viewModel..getCartResponse(),
-      builder: (context, state) {
-        return Scaffold(
-            resizeToAvoidBottomInset: true,
-            extendBody: false,
-            appBar: AppBar(
-              surfaceTintColor: Colors.transparent,
-              centerTitle: true,
-              elevation: 0,
-              title: const Text("Cart"),
-              backgroundColor: Colors.transparent,
-              foregroundColor: MyColors.primaryColor,
-              titleTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w500,
-                  color: MyColors.primaryColor),
-              actions: [
-                IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.search_outlined,
-                      color: MyColors.primaryColor,
-                    )),
-                IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.shopping_cart_outlined,
-                      color: MyColors.primaryColor,
-                    )),
-              ],
-            ),
-            body: state is CartLoadingState
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: MyColors.darkPrimaryColor,
-                    ),
-                  )
-                : state is CartErrorState
-                    ? Center(
-                        child: Text(state.message ?? "",
-                            textWidthBasis: TextWidthBasis.longestLine,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                                    fontSize: 18.sp,
-                                    color: MyColors.primaryColor,
-                                    fontWeight: FontWeight.normal)),
-                      )
-                    : state is CartSuccessState
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                  child: ListView.builder(
-                                itemCount: viewModel.cartProducts.length,
-                                itemBuilder: (context, index) {
-                                  return CartItem(
-                                    productEntity:
-                                        viewModel.cartProducts[index],
-                                  );
-                                },
-                              )),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: 96.h, left: 16.w, right: 16.w),
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Total Price",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.copyWith(
-                                                  fontSize: 18.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: MyColors.primaryColor),
-                                        ),
-                                        Gap(5.h),
-                                        Text(
-                                          "EGP ${state.cartResponse?.data?.totalCartPrice!} ",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                  fontSize: 18.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: MyColors.primaryColor),
-                                        )
-                                      ],
-                                    ),
-                                    Gap(32.w),
-                                    Expanded(
-                                        child: InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              height: 50.h,
-                                              decoration: BoxDecoration(
-                                                color: MyColors.primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.r),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Text(
-                                                    "Check Out",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium
-                                                        ?.copyWith(
-                                                            fontSize: 18.sp,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: MyColors
-                                                                .whiteColor),
-                                                  ),
-                                                  Icon(
-                                                    Icons.arrow_forward,
-                                                    color: MyColors.whiteColor,
-                                                    size: 28.sp,
-                                                  ),
-                                                ],
-                                              ),
-                                            )))
-                                  ],
+    return BlocProvider<CartItemsScreenViewModel>(
+      create: (context) => viewModel..getCartResponse(),
+      child: BlocConsumer<CartItemsScreenViewModel, CartStates>(
+        listener: (context, state) {
+          if (state is UpdateCartItemLoadingState) {
+            DialogUtils.showLoading(
+                context: context, loadingMessage: "loading.....");
+          } else if (state is UpdateCartItemErrorState) {
+            DialogUtils.hideLoading(context);
+
+            DialogUtils.showMessage(context: context, content: state.message!);
+          } else if (state is UpdateCartItemSuccessState) {
+            DialogUtils.hideLoading(context);
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+              resizeToAvoidBottomInset: true,
+              extendBody: false,
+              appBar: AppBar(
+                surfaceTintColor: Colors.transparent,
+                centerTitle: true,
+                elevation: 0,
+                title: const Text("Cart"),
+                backgroundColor: Colors.transparent,
+                foregroundColor: MyColors.primaryColor,
+                titleTextStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w500,
+                        color: MyColors.primaryColor),
+                actions: [
+                  IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.search_outlined,
+                        color: MyColors.primaryColor,
+                      )),
+                ],
+              ),
+              body: state is CartLoadingState ||
+                      state is DeleteCartItemLoadingState
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: MyColors.darkPrimaryColor,
+                      ),
+                    )
+                  : state is CartErrorState
+                      ? Center(
+                          child: Text(state.message ?? "",
+                              textWidthBasis: TextWidthBasis.longestLine,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      fontSize: 18.sp,
+                                      color: MyColors.primaryColor,
+                                      fontWeight: FontWeight.normal)),
+                        )
+                      : state is DeleteCartItemErrorState
+                          ? Center(
+                              child: Text(state.message ?? "",
+                                  textWidthBasis: TextWidthBasis.longestLine,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
+                                          fontSize: 18.sp,
+                                          color: MyColors.primaryColor,
+                                          fontWeight: FontWeight.normal)),
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: ListView.builder(
+                                  itemCount: viewModel
+                                      .cartProducts.data?.products?.length,
+                                  itemBuilder: (context, index) {
+                                    return CartItem(
+                                      productEntity: viewModel
+                                          .cartProducts.data!.products![index],
+                                    );
+                                  },
+                                )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 96.h, left: 16.w, right: 16.w),
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "Total Price",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium
+                                                ?.copyWith(
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color:
+                                                        MyColors.primaryColor),
+                                          ),
+                                          Gap(5.h),
+                                          Text(
+                                            "EGP ${viewModel.cartProducts.data?.totalCartPrice} ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color:
+                                                        MyColors.primaryColor),
+                                          )
+                                        ],
+                                      ),
+                                      Gap(32.w),
+                                      Expanded(
+                                          child: InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                height: 50.h,
+                                                decoration: BoxDecoration(
+                                                  color: MyColors.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100.r),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      "Check Out",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                              fontSize: 18.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: MyColors
+                                                                  .whiteColor),
+                                                    ),
+                                                    Icon(
+                                                      Icons.arrow_forward,
+                                                      color:
+                                                          MyColors.whiteColor,
+                                                      size: 28.sp,
+                                                    ),
+                                                  ],
+                                                ),
+                                              )))
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        : const SizedBox.shrink());
-      },
+                              ],
+                            ));
+        },
+      ),
     );
   }
 }

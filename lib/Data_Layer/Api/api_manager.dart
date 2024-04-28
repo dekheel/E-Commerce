@@ -214,4 +214,63 @@ class ApiManager {
           NetworkError(errorMessage: 'please check internet connection'));
     }
   }
+
+  Future<Either<Failures, GetCartResponseDto>> deleteCartItem(
+      String productId) async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri url = Uri.https(
+          ApiConstants.baseUrl, "${ApiConstants.addProductApi}/$productId");
+
+      var token = SharedPreference.readData(key: SharedPreference.userTokenKey);
+
+      var response =
+          await http.delete(url, headers: {"token": token.toString()});
+
+      var cartResponse = GetCartResponseDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(cartResponse);
+      } else {
+        return Left(ServerError(errorMessage: cartResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, GetCartResponseDto>> updateCartItem(
+      String productId, count) async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri url = Uri.https(
+          ApiConstants.baseUrl, "${ApiConstants.addProductApi}/$productId");
+
+      var token = SharedPreference.readData(key: SharedPreference.userTokenKey);
+
+      var response = await http.put(url,
+          headers: {"token": token.toString()},
+          body: {"count": count.toString()});
+
+      var cartResponse = GetCartResponseDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(cartResponse);
+      } else {
+        return Left(ServerError(errorMessage: cartResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
 }

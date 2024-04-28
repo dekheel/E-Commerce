@@ -15,9 +15,11 @@ import 'Repository/Data_Source/home_tab_remote_data_source.dart';
 import 'Repository/Repository/cart_repository.dart';
 import 'Repository/Repository/home_tab_repository.dart';
 import 'Use_Cases/auth_use_case.dart';
+import 'Use_Cases/delete_cart_item_use_case.dart';
 import 'Use_Cases/get_all_brands_use_case.dart';
 import 'Use_Cases/get_all_products_use_case.dart';
 import 'Use_Cases/get_cart_use_case.dart';
+import 'Use_Cases/update_cart_item_use_case.dart';
 
 // for Authentication
 AuthUseCase injectRegisterUseCase() {
@@ -76,4 +78,12 @@ CartRepository injectCartRepository() {
 
 CartRemoteDataSource injectCartRemoteDataSource() {
   return CartRemoteDataSourceImpl(apiManager: ApiManager.getInstance());
+}
+
+DeleteCartItemUseCase injectDeleteCartItemUseCase() {
+  return DeleteCartItemUseCase(cartRepository: injectCartRepository());
+}
+
+UpdateCartItemUseCase injectUpdateCartItemUseCase() {
+  return UpdateCartItemUseCase(cartRepository: injectCartRepository());
 }

@@ -21,3 +21,39 @@ class CartSuccessState extends CartStates {
 
   CartSuccessState({required this.cartResponse});
 }
+
+class DeleteCartItemLoadingState extends CartStates {
+  String? message;
+
+  DeleteCartItemLoadingState({required this.message});
+}
+
+class DeleteCartItemErrorState extends CartStates {
+  String? message;
+
+  DeleteCartItemErrorState({required this.message});
+}
+
+class DeleteCartItemSuccessState extends CartStates {
+  GetCartResponseEntity? cartResponse;
+
+  DeleteCartItemSuccessState({required this.cartResponse});
+}
+
+class UpdateCartItemLoadingState extends CartStates {
+  String? message;
+
+  UpdateCartItemLoadingState({required this.message});
+}
+
+class UpdateCartItemErrorState extends CartStates {
+  String? message;
+
+  UpdateCartItemErrorState({required this.message});
+}
+
+class UpdateCartItemSuccessState extends CartStates {
+  GetCartResponseEntity? cartResponse;
+
+  UpdateCartItemSuccessState({required this.cartResponse});
+}

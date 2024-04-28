@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Domain_Layer/Entities/get_cart_response_entity.dart';
+import '../Cubit/cart_items_screen_view_model.dart';
 
 class CartItem extends StatelessWidget {
   final GetProductsEntity productEntity;
@@ -29,7 +30,7 @@ class CartItem extends StatelessWidget {
                 width: 130.w,
                 height: 145.h,
                 fit: BoxFit.fill,
-                imageUrl: productEntity.product!.imageCover!,
+                imageUrl: productEntity.product?.imageCover ?? "",
                 placeholder: (context, url) => const Center(
                   child: CircularProgressIndicator(
                     color: MyColors.yellowColor,
@@ -70,6 +71,9 @@ class CartItem extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             //    todo delete item from cart
+                            CartItemsScreenViewModel.getInstance(context)
+                                .deleteCartItemResponse(
+                                    productEntity.product?.id ?? "");
                           },
                           child: Icon(
                             Icons.delete_outline,
@@ -119,7 +123,25 @@ class CartItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  //   todo decrease count by one
+                                  int productCount =
+                                      productEntity.count?.toInt() ?? 1;
+
+                                  productCount--;
+
+                                  productCount == 1
+                                      ? CartItemsScreenViewModel.getInstance(
+                                              context)
+                                          .updateCartItemResponse(
+                                              productEntity.product?.id ?? "",
+                                              productCount)
+                                      : CartItemsScreenViewModel.getInstance(
+                                              context)
+                                          .deleteCartItemResponse(
+                                          productEntity.product?.id ?? "",
+                                        );
+                                },
                                 icon: Icon(
                                   Icons.remove_circle_outline_rounded,
                                   color: MyColors.whiteColor,
@@ -136,7 +158,18 @@ class CartItem extends StatelessWidget {
                                       color: MyColors.whiteColor),
                             ),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  //   todo increase count by one
+                                  int productCount =
+                                      productEntity.count?.toInt() ?? 1;
+
+                                  productCount++;
+
+                                  CartItemsScreenViewModel.getInstance(context)
+                                      .updateCartItemResponse(
+                                          productEntity.product?.id ?? "",
+                                          productCount);
+                                },
                                 icon: Icon(Icons.add_circle_outline_rounded,
                                     color: MyColors.whiteColor, size: 28.sp))
                           ],
