@@ -45,23 +45,27 @@ class ProductDetails extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: MyColors.primaryColor),
             actions: [
-              Badge(
-                alignment: AlignmentDirectional.topStart,
-                backgroundColor: MyColors.greenColor,
-                label: Text(
-                    viewModel?.cartProducts.data?.products?.length.toString() ??
-                        "0"),
-                child: IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(CartItemsScreen.routeName);
-                    },
-                    icon: const ImageIcon(
-                      AssetImage(MyAssets.shoppingCart),
+              state is CartLoadingState
+                  ? const CircularProgressIndicator(
                       color: MyColors.primaryColor,
-                    )),
-              ),
+                    )
+                  : Badge(
+                      alignment: AlignmentDirectional.topStart,
+                      backgroundColor: MyColors.greenColor,
+                      label: Text(viewModel?.cartProducts.data?.products?.length
+                              .toString() ??
+                          "0"),
+                      child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(CartItemsScreen.routeName);
+                          },
+                          icon: const ImageIcon(
+                            AssetImage(MyAssets.shoppingCart),
+                            color: MyColors.primaryColor,
+                          )),
+                    ),
               IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {},
@@ -87,7 +91,7 @@ class ProductDetails extends StatelessWidget {
                           child: Announcement(
                               context: context,
                               imagesHeight: 300.h,
-                              sliderImageStrings: productEntity?.images ?? [],
+                              sliderImageStrings: productEntity!.images!,
                               loadFromAsset: false))),
                   Gap(24.h),
                   Row(

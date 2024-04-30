@@ -6,9 +6,12 @@ import 'package:e_commerce/Data_Layer/Api/api_constants.dart';
 import 'package:e_commerce/Data_Layer/Model/Request/Register_request.dart';
 import 'package:e_commerce/Data_Layer/Model/Request/login_request.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/add_cart_response_dto.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/add_remove_product_favorite_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/auth_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/category_brand_response_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/get_cart_response_dto.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/get_favorite_product_dto.dart';
+import 'package:e_commerce/Data_Layer/Model/Response/get_user_dto.dart';
 import 'package:e_commerce/Data_Layer/Model/Response/product_response_dto.dart';
 import 'package:e_commerce/Ui_Layer/Utils/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +26,32 @@ class ApiManager {
   static ApiManager getInstance() {
     _apiManager ??= ApiManager._();
     return _apiManager!;
+  }
+
+  Future<Either<Failures, GetFavoriteProductDto>> getFavoriteProduct() async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.wishList);
+      var token = SharedPreference.readData(key: SharedPreference.userTokenKey);
+
+      var response = await http.get(url, headers: {"token": token.toString()});
+
+      var favoriteResponse =
+          GetFavoriteProductDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(favoriteResponse);
+      } else {
+        return Left(ServerError(errorMessage: favoriteResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
   }
 
   Future<Either<Failures, AuthResponseDto>> register(String name, String email,
@@ -267,6 +296,101 @@ class ApiManager {
         return Right(cartResponse);
       } else {
         return Left(ServerError(errorMessage: cartResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, GetUserDto>> getUserData() async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      var userEmail =
+          SharedPreference.readData(key: SharedPreference.userEmail);
+
+      Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.getUserApi,
+          {SharedPreference.userEmail: userEmail});
+
+      var response = await http.get(url);
+
+      var userResponse = GetUserDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(userResponse);
+      } else {
+        return Left(ServerError(errorMessage: userResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, AddRemoveProductFavoriteDto>> addRemoveFavorite(
+      String productId) async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri addUrl = Uri.https(ApiConstants.baseUrl, ApiConstants.wishList);
+
+      var token = SharedPreference.readData(key: SharedPreference.userTokenKey);
+
+      var response = await http.post(addUrl,
+          headers: {"token": token.toString()}, body: {"productId": productId});
+      // } else {
+      //   response = await http.delete(
+      //     addUrl,
+      //     headers: {"token": token.toString()},
+      //   );
+      // }
+
+      var wishListResponse =
+          AddRemoveProductFavoriteDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(wishListResponse);
+      } else {
+        return Left(ServerError(errorMessage: wishListResponse.message));
+      }
+    } else {
+      return Left(
+          NetworkError(errorMessage: 'please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, AddRemoveProductFavoriteDto>> removeFavorite(
+      String productId) async {
+    var connectivityResult =
+        await Connectivity().checkConnectivity(); // User defined class
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet ||
+        connectivityResult == ConnectivityResult.bluetooth ||
+        connectivityResult == ConnectivityResult.vpn) {
+      Uri removeUrl = Uri.https(
+        ApiConstants.baseUrl,
+        "${ApiConstants.wishList}/$productId",
+      );
+
+      var token = SharedPreference.readData(key: SharedPreference.userTokenKey);
+
+      var response = await http.delete(removeUrl,
+          headers: {"token": token.toString()}, body: {"productId": productId});
+
+      var wishListResponse =
+          AddRemoveProductFavoriteDto.fromJson(jsonDecode(response.body));
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(wishListResponse);
+      } else {
+        return Left(ServerError(errorMessage: wishListResponse.message));
       }
     } else {
       return Left(

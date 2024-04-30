@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatelessWidget {
   String fieldName;
+
+  TextStyle? fieldNameStyle;
+
   String hintText;
   Widget? suffixIcon;
   bool isObscure;
@@ -15,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   CustomTextField(
       {required this.fieldName,
       required this.hintText,
+      this.fieldNameStyle,
       this.suffixIcon,
       this.isObscure = false,
       this.validator,
@@ -30,10 +34,11 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           fieldName,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontSize: 18.sp, color: MyColors.whiteColor),
+          style: fieldNameStyle ??
+              Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontSize: 18.sp, color: MyColors.whiteColor),
           textAlign: TextAlign.start,
         ),
         Padding(

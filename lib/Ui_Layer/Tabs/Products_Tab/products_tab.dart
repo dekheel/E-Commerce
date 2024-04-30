@@ -5,9 +5,7 @@ import 'package:e_commerce/Ui_Layer/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../Utils/dialog_utils.dart';
 import '../../Utils/my_assets.dart';
 import '../Home_Tab/widgets/custom_search_shopping_cart.dart';
 import 'Cubit/products_tab_states.dart';
@@ -23,28 +21,7 @@ class ProductTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ProductTabViewModel>(
       create: (context) => viewModel..getAllProducts(),
-      child: BlocConsumer<ProductTabViewModel, ProductTabStates>(
-        listener: (context, state) {
-          if (state is AddToCartLoadingStates) {
-            DialogUtils.showLoading(
-                context: context, loadingMessage: "loading.....");
-          } else if (state is AddToCartErrorStates) {
-            DialogUtils.hideLoading(context);
-            DialogUtils.showMessage(
-                context: context, content: state.failures.errorMessage!);
-          } else if (state is AddToCartSuccessStates) {
-            DialogUtils.hideLoading(context);
-
-            Fluttertoast.showToast(
-                msg: state.addCartResponseEntity.message!,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: MyColors.greenColor,
-                textColor: MyColors.whiteColor,
-                fontSize: 16.sp);
-          }
-        },
+      child: BlocBuilder<ProductTabViewModel, ProductTabStates>(
         builder: (context, state) {
           return SafeArea(
               child: Padding(

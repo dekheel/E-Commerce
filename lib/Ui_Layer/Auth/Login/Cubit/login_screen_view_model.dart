@@ -31,6 +31,9 @@ class LoginScreenViewModel extends Cubit<AuthStates> {
     }, (response) {
       SharedPreference.saveData(
           key: SharedPreference.userTokenKey, data: response.token);
+      SharedPreference.saveData(
+          key: SharedPreference.userEmail, data: emailController.text);
+
       emit(AuthSuccessState(authResultEntity: response));
     });
   }

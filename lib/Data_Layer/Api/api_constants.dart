@@ -8,4 +8,7 @@ class ApiConstants {
   static const String productsApi = "/api/v1/products";
 
   static const String addProductApi = "/api/v1/cart";
+  static const String getUserApi = "/api/v1/users";
+
+  static const String wishList = "/api/v1/wishlist";
 }

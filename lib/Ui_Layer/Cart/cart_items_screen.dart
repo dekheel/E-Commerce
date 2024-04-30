@@ -15,7 +15,7 @@ class CartItemsScreen extends StatelessWidget {
 
   CartItemsScreen({super.key});
 
-  CartItemsScreenViewModel viewModel = CartItemsScreenViewModel(
+  final CartItemsScreenViewModel viewModel = CartItemsScreenViewModel(
       getCartUseCase: injectGetCartUseCase(),
       deleteCartItemUseCase: injectDeleteCartItemUseCase(),
       updateCartItemUseCase: injectUpdateCartItemUseCase());

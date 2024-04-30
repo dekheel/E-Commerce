@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // wait 3 seconds then navigate to home screen
-    Timer(const Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 1), () async {
       var user = SharedPreference.readData(key: SharedPreference.userTokenKey);
 
       if (user == null) {

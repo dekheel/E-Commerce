@@ -13,44 +13,51 @@ import '../../../Cart/Cubit/cart_items_screen_view_model.dart';
 class CustomSearchWithShoppingCart extends StatelessWidget {
   final String? cartItem;
 
-  CustomSearchWithShoppingCart({this.cartItem, super.key}) {
-    viewModel = CartItemsScreenViewModel(
-        getCartUseCase: injectGetCartUseCase(),
-        deleteCartItemUseCase: injectDeleteCartItemUseCase(),
-        updateCartItemUseCase: injectUpdateCartItemUseCase());
-  }
+  CustomSearchWithShoppingCart({this.cartItem, super.key});
 
-  CartItemsScreenViewModel? viewModel;
+  CartItemsScreenViewModel? viewModel = CartItemsScreenViewModel(
+      getCartUseCase: injectGetCartUseCase(),
+      deleteCartItemUseCase: injectDeleteCartItemUseCase(),
+      updateCartItemUseCase: injectUpdateCartItemUseCase());
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartItemsScreenViewModel, CartStates>(
       bloc: viewModel!..getCartResponse(),
       builder: (context, state) {
-        return Row(
-          children: [
-            Expanded(
-                child: SearchTextField(
-              onTap: null,
-            )),
-            SizedBox(width: 24.w),
-            InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(CartItemsScreen.routeName);
-                },
-                child: Badge(
-                  alignment: AlignmentDirectional.topStart,
-                  backgroundColor: MyColors.greenColor,
-                  label: Text(viewModel!.cartProducts.data?.products?.length
-                          .toString() ??
-                      "0"),
-                  child: ImageIcon(
-                    const AssetImage(MyAssets.shoppingCart),
-                    size: 28.sp,
-                    color: MyColors.primaryColor,
-                  ),
-                ))
-          ],
+        return SizedBox(
+          height: 50.h,
+          child: Row(
+            children: [
+              Expanded(
+                  child: SearchTextField(
+                onTap: null,
+              )),
+              SizedBox(width: 24.w),
+              state is CartLoadingState
+                  ? const CircularProgressIndicator(
+                      color: MyColors.primaryColor,
+                    )
+                  : InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(CartItemsScreen.routeName);
+                      },
+                      child: Badge(
+                        alignment: AlignmentDirectional.topStart,
+                        backgroundColor: MyColors.greenColor,
+                        label: Text(viewModel!
+                                .cartProducts.data?.products?.length
+                                .toString() ??
+                            "0"),
+                        child: ImageIcon(
+                          const AssetImage(MyAssets.shoppingCart),
+                          size: 28.sp,
+                          color: MyColors.primaryColor,
+                        ),
+                      ))
+            ],
+          ),
         );
       },
     );

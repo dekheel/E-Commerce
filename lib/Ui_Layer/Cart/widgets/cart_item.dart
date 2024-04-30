@@ -125,22 +125,21 @@ class CartItem extends StatelessWidget {
                             IconButton(
                                 onPressed: () {
                                   //   todo decrease count by one
-                                  int productCount =
-                                      productEntity.count?.toInt() ?? 1;
 
-                                  productCount--;
-
-                                  productCount == 1
-                                      ? CartItemsScreenViewModel.getInstance(
-                                              context)
-                                          .updateCartItemResponse(
-                                              productEntity.product?.id ?? "",
-                                              productCount)
-                                      : CartItemsScreenViewModel.getInstance(
-                                              context)
-                                          .deleteCartItemResponse(
-                                          productEntity.product?.id ?? "",
-                                        );
+                                  if (productEntity.count?.toInt() == 1) {
+                                    CartItemsScreenViewModel.getInstance(
+                                            context)
+                                        .deleteCartItemResponse(
+                                      productEntity.product?.id ?? "",
+                                    );
+                                  } else {
+                                    CartItemsScreenViewModel.getInstance(
+                                            context)
+                                        .updateCartItemResponse(
+                                            productEntity.product?.id ?? "",
+                                            (productEntity.count?.toInt())! -
+                                                1);
+                                  }
                                 },
                                 icon: Icon(
                                   Icons.remove_circle_outline_rounded,

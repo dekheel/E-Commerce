@@ -4,6 +4,7 @@ class SharedPreference {
   static late SharedPreferences sharedPreference;
 
   static String userTokenKey = "Token";
+  static String userEmail = "email";
 
   static init() async {
     sharedPreference = await SharedPreferences.getInstance();
